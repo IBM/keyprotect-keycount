@@ -1,3 +1,3 @@
 # MAINTAINERS
 
-Christopher Ferris - chrisfer@us.ibm.com
+Kirill Stakhovsky - kirill.stakhovsky@ibm.com
