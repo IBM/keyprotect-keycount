@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
+	"strconv"
 	"time"
 
 	kp "github.com/IBM/keyprotect-go-client"
-	progressbar "github.com/schollz/progressbar/v3"
+	"github.com/schollz/progressbar/v3"
+	//ibm "github.com/IBM/platform-services-go-sdk/resourcecontrollerv2"
 )
 
 func main() {
@@ -30,7 +33,11 @@ func main() {
 		panic(err)
 	}
 
-	keys, err := client.ListKeys(context.Background(), nil)
+	var keylimit uint32 = 5000
+	listkeyopts := kp.ListKeysOptions{
+		Limit: &keylimit,
+	}
+	keys, err := client.ListKeys(context.Background(), &listkeyopts)
 	if err != nil {
 		panic(err)
 	}
@@ -42,7 +49,6 @@ func main() {
 	opts := kp.ListKeyVersionsOptions{
 		TotalCount: &tc,
 	}
-
 	fmt.Printf("Starting to count and sum up all key versions for all non deleted keys...\n")
 
 	bar := progressbar.NewOptions64(
@@ -64,21 +70,37 @@ func main() {
 	countSum := 0
 	for _, key := range keys.Keys {
 
+		bar.Add(1)
+		if key.Extractable {
+			countSum = countSum + 1
+			continue
+		}
+
 		keyVersion, err := client.ListKeyVersions(context.Background(), key.ID, &opts)
+
+		if err != nil {
+			countSum = countSum + 1
+			continue
+		}
 
 		if keyVersion.Metadata.TotalCount != nil {
 			countSum = countSum + int(*keyVersion.Metadata.TotalCount)
 		}
 
-		bar.Add(1)
-
-		if err != nil {
-			panic(err)
-		}
 	}
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Printf("The total number of all key versions for all non deleted keys is %d\n", countSum)
+
+	file, err := os.OpenFile("countperinstance.txt", os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	var writeString = cc.InstanceID + ":" + strconv.Itoa(countSum) + "\n"
+	if _, err := file.WriteString(writeString); err != nil {
+		log.Fatal(err)
+	}
 }
