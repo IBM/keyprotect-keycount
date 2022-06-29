@@ -1,17 +1,20 @@
-# Key Version Count for Key Protect
+# Key Protect key version count
 
 ## Scope
 
-The purpose of this repository is to provide customers a way to count the amount of key versions in their instance(s).
+The purpose of this repository is to provide IBM Key Protect customers a way to count all key versions of non deleted keys in all of their Key Protect instances.
+
+What is a key version?
+Every key has at least one version, additional versions are added each time a key is created. For example, on a new instance where 5 Keys were created and 3 keys rotated, total sum of key versions is 8 (5 created + 3 rotated).
 
 ## Usage
 
-This repository contains binaries for calculating key count to determine the cost of their instance(s).
+Instructions for counting key versions in your ibm cloud account.
 
-Instructions for counting key versions in your ibm cloud account (Unix env)
-1. Set in your environment your IBMCLOUD_API_KEY for the account you wish to count key versions in
+1. Set the environment variable IBMCLOUD_API_KEY for the account you wish to count key versions in. See API Key documentation [here](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui).
+
 2. Run keycount.sh
-    * The program will iterate through all your instances, counting the keyversions for each instance. At the end a total count for all key versions in all regions, in all instances for all keys in the account will be displayed.
+    * The program will iterate through all your instances, counting the keyversions for each instance. At the end a total count for all key versions in all regions, in all instances for all non deleted keys in the account will be displayed.
 
 * [README.md](README.md)
 * [MAINTAINERS.md](MAINTAINERS.md)
@@ -20,8 +23,6 @@ Instructions for counting key versions in your ibm cloud account (Unix env)
 
 <!-- A notes section is useful for anything that isn't covered in the Usage or Scope. Like what we have below. -->
 ## Notes
-
-Key Versions: The total amount of key material generated for all keys in an instances. 5 Keys created, 3 keys rotated -> Total amount of keys remains 5, total amount of key versions = 8 (5 created + 3 rotated)
 
 Two files: 
 1. countperinstance.txt - keeps track of key versions per instance, useful for tracking which instances have a large amount of keys
