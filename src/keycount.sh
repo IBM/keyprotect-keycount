@@ -13,6 +13,14 @@ else
     ibmcloud="cloud.ibm.com"
 fi
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    executable=../bin/app-amd64-linux
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+   executable=../bin/app-amd64-darwin
+elif [[ "$OSTYPE" == "msys" ]]; then
+    executable=../bin/app-386.exe
+fi
+
 ibmcloud login -apikey $APIKEY --no-region -a $ibmcloud
 ibmcloud resource service-instances --long | grep "GUID:\|Location" | awk '/GUID:/{ thing = $2; } /Location/ { print thing,":",$NF; }' >  instances.txt
 truncate -s -1 instances.txt
@@ -63,7 +71,7 @@ while read -r line; do
             ;;
     esac
 
-    ../bin/app-amd64-darwin  $BASE_URL $APIKEY ${arrLine[0]}; # Executable for macOS
+    $executable $BASE_URL $APIKEY ${arrLine[0]}; # Executable for macOS
 done < instances.txt
 
 totalsum=0
