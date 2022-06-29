@@ -23,8 +23,6 @@ while read -r line; do
     if [[ size -gt 36 ]]; then
         continue
     fi
-    echo $instance
-    echo $region
     
     case $region in
         "us-south")
@@ -59,7 +57,7 @@ while read -r line; do
             ;;
     esac
 
-    go run keycount.go $BASE_URL $APIKEY ${arrLine[0]};
+    ../bin/app-amd64-darwin  $BASE_URL $APIKEY ${arrLine[0]}; # Executable for macOS
 done < instances.txt
 
 totalsum=0
