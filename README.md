@@ -12,6 +12,8 @@ Every key has at least one version, additional versions are added each time a ke
 Instructions for counting key versions in your ibm cloud account.
 
 1. Set the environment variable IBMCLOUD_API_KEY for the account you wish to count key versions in. See API Key documentation [here](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui).
+2. optional: If your account is located in test.cloud.ibm.com, call the script in the same way but with an arguement "nonprod". If you omit the nonprod keyword, the script will default to logging in at cloud.ibm.com
+    * ./keycount.sh nonprod
 
 2. Run keycount.sh
     * The program will iterate through all your instances, counting the keyversions for each instance. At the end a total count for all key versions in all regions, in all instances for all non deleted keys in the account will be displayed.
