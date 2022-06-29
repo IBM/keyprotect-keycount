@@ -7,7 +7,7 @@ else
     APIKEY="${IBMCLOUD_API_KEY}"
 fi
 
-ibmcloud login -apikey $APIKEY --no-region
+ibmcloud login -apikey $APIKEY --no-region -a cloud.ibm.com
 ibmcloud resource service-instances --long | grep "GUID:\|Location" | awk '/GUID:/{ thing = $2; } /Location/ { print thing,":",$NF; }' >  instances.txt
 truncate -s -1 instances.txt
 
