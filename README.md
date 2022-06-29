@@ -21,7 +21,7 @@ Instructions for counting key versions in your ibm cloud account (Unix env)
 <!-- A notes section is useful for anything that isn't covered in the Usage or Scope. Like what we have below. -->
 ## Notes
 
-Key Versions: The total amount of key material generated for all keys in an instances. 5 Keys created, 3 keys rotated -> Total amount of keys remains 5, total amount of key versions = 8 (5 created + 3 rotated)
+Key Versions: The total amount of key material generated for all keys in an instance. 5 Keys created, 3 keys rotated -> Total amount of keys remains 5, total amount of key versions = 8 (5 created + 3 rotated)
 
 Two files: 
 1. countperinstance.txt - keeps track of key versions per instance, useful for tracking which instances have a large amount of keys
