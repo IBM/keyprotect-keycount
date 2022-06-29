@@ -10,7 +10,6 @@ import (
 
 	kp "github.com/IBM/keyprotect-go-client"
 	"github.com/schollz/progressbar/v3"
-	//ibm "github.com/IBM/platform-services-go-sdk/resourcecontrollerv2"
 )
 
 func main() {
